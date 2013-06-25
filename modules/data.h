@@ -10,6 +10,18 @@
 
 //add your includes for the project data here
 
+class Data {
+
+public:
+	//functions
+	Data();
+
+
+private:
+
+
+
+};
 
 
 
