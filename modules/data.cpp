@@ -1,5 +1,5 @@
 
-#include <data.h>
+#include "data.h"
 #include <Flash.h>
 
 /**********************************SECRET LOCATION*********************************/
@@ -13,7 +13,24 @@
 FLASH_ARRAY(float, Secretlocation, 43.691708, -114.35051);
 
 /**********************************SECRET LOCATION*********************************/
+
+/*---------------Constants for Location Calculations----------------*/
+// 0 = PI/180 constant, 1 = Earth's quatratic mean radius for WGS-84,  2 = meters to miles
+
 FLASH_ARRAY(float, calcConsts, 0.017453292519943295769236907684886, 6372797.560856, 0.000621371);
+
+/*------------------------------------------------------------------*/
+
+
+
+Position::Position(float _lat, float _lon){
+	lat = _lat;
+	lon = _lon;
+
+
+
+}
+
 double Data::_arcInRadians(const Position& from, const Position& to) {
 	//calcConsts[0] == degrees to radian conversion constant
     double latitudeArc  = (from.lat - to.lat) * calcConsts[0];
