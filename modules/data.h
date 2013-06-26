@@ -8,20 +8,42 @@
 #define data_H_
 #include "Arduino.h"
 
-//add your includes for the project data here
+static const double DEG_TO_RAD = 0.017453292519943295769236907684886;
+static const double EARTH_RADIUS_IN_METERS = 6372797.560856;
 
-class Data {
+//add your includes for the project data here
+class Position {
 
 public:
-	//functions
-	Data();
-
+	//Constructor
+Position();
 
 private:
 
 
+};
+
+
+
+class Data {
+
+public:
+	//Constructor
+	Data();
+
+	//Methods
+	double DistanceInMeters(const Position& from, const Position& to)
+
+
+private:
+
+	_ArcInRadians(const Position& from, const Position& to);
+
+
 
 };
+
+
 
 
 
