@@ -9,6 +9,7 @@
 #include "Arduino.h"
 
 //add your includes for the project GPS here
+#include <tinyGPS.h>
 
 
 

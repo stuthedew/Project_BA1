@@ -6,4 +6,5 @@
 #include <modules/data.h>
 #include <modules/lock.h>
 #include <modules/meter.h>
+#include <modules/GPS.h>
 
