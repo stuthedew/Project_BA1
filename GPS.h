@@ -19,16 +19,19 @@ public:
 	uint8_t checkAndPars();
 	Adafruit_GPS AF_GPS;
 
+	uint8_t hour, minute, seconds, year, month, day;
+	uint16_t milliseconds;
+	float latitude, longitude, geoidHeight, altitude;
+	float speed, angle, magVariation, HDOP;
+	char lat, lon, mag;
+	boolean fix;
+	uint8_t fixQuality, satellites;
 
 private:
 	SoftwareSerial mySerial;
-
+	void _update();
 
 };
-
-
-
-
 
 //Do not add code below this line
 #endif /* GPS_H_ */
