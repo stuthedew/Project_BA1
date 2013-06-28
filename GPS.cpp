@@ -48,27 +48,28 @@ uint8_t GPS::checkAndParse(){
 /*--------------------------------PRIVATE---------------------------------*/
 
 void GPS::_update(){
-	hour = A.hour;
-	minute = A.minute;
-	seconds = A.seconds;
-	year = A.year;
-	month = A.month;
-	day = A.day;
-	milliseconds = A.milliseconds;
-	latitude = A.latitude;
-	longitude = A.longitude;
-	geoidHeight = A.geoidheight;
-	altitude = A.altitude;
-	speed = A.speed;
-	angle = A.angle;
-	magVariation = A.magvariation;
-	HDOP = A.HDOP;
-	lat = A.lat;
-	lon = A.lon;
-	mag = A.mag;
-	fix = A.fix;
-	fixQuality = A.fixquality;
-	satellites = A.satellites;
+
+	hour = AF_GPS.hour;
+	minute = AF_GPS.minute;
+	seconds = AF_GPS.seconds;
+	year = AF_GPS.year;
+	month = AF_GPS.month;
+	day = AF_GPS.day;
+	milliseconds = AF_GPS.milliseconds;
+	latitude = AF_GPS.latitude;
+	longitude = AF_GPS.longitude;
+	geoidHeight = AF_GPS.geoidheight;
+	altitude = AF_GPS.altitude;
+	speed = AF_GPS.speed;
+	angle = AF_GPS.angle;
+	magVariation = AF_GPS.magvariation;
+	HDOP = AF_GPS.HDOP;
+	lat = AF_GPS.lat;
+	lon = AF_GPS.lon;
+	mag = AF_GPS.mag;
+	fix = AF_GPS.fix;
+	fixQuality = AF_GPS.fixquality;
+	satellites = AF_GPS.satellites;
 
 }
 
