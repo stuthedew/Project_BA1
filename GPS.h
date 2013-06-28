@@ -16,11 +16,13 @@ class GPS {
 public:
 	GPS();
 	void begin();
+	uint8_t checkAndPars();
+	Adafruit_GPS AF_GPS;
 
 
 private:
 	SoftwareSerial mySerial;
-	Adafruit_GPS AF_GPS;
+
 
 };
 

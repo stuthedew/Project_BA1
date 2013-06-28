@@ -5,22 +5,6 @@
 
 volatile char c;
 
-/*---------------------------Static Functions-------------------------------*/
-
-
-static inline void handle_interrupts(volatile uint8_t *TCNTn, volatile uint8_t *OCRnA){
-
-
-}
-
-SIGNAL(TIMER0_COMPA_vect) {
-	handle_interrupts(&TCNT0, &OCR0A);
-}
-
-
-/*------------------------End of Static Functions----------------------------*/
-
-
 /*************************************************************************/
 /******************************* GPS Class **************************/
 /*************************************************************************/
@@ -55,5 +39,11 @@ void GPS::begin() {
 
 
 
+/*---------------------------Static Functions-------------------------------*/
 
+SIGNAL(TIMER0_COMPA_vect) {
+	c = AF_GPS.read();
+}
+
+/*------------------------End of Static Functions----------------------------*/
 
