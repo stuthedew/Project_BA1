@@ -16,7 +16,7 @@ class GPS {
 public:
 	GPS();
 	void begin();
-	uint8_t checkAndPars();
+	uint8_t checkAndParse();
 	Adafruit_GPS AF_GPS;
 
 	uint8_t hour, minute, seconds, year, month, day;

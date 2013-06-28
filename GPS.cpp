@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include "GPS.h"
 
-volatile char c;
+char c;
+volatile boolean readFlag = 0;
 
 /*************************************************************************/
 /******************************* GPS Class **************************/
@@ -30,6 +31,9 @@ void GPS::begin() {
 
 uint8_t GPS::checkAndParse(){
 	//code: 1 == success, 2 == no new NMEA data, 3 == failed to parse
+	if(readFlag){
+		c = AF_GPS.read();
+		readFlag = 0;
 	if (AF_GPS.newNMEAreceived()) {
 
 
@@ -39,6 +43,7 @@ uint8_t GPS::checkAndParse(){
 	    _update();
 	    return 1;
 	  }
+	}
 	else{
 		return 2;
 	}
@@ -87,7 +92,7 @@ void GPS::_update(){
 /*---------------------------Static Functions-------------------------------*/
 
 SIGNAL(TIMER0_COMPA_vect) {
-	c = AF_GPS.read();
+	readFlag = 1;
 }
 
 /*------------------------End of Static Functions----------------------------*/
