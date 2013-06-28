@@ -29,22 +29,21 @@ void GPS::begin() {
 
 }
 
-uint8_t GPS::checkAndParse(){
+uint8_t GPS::checkAndParse() {
 	//code: 1 == success, 2 == no new NMEA data, 3 == failed to parse
-	if(readFlag){
+	if (readFlag) {
 		c = AF_GPS.read();
 		readFlag = 0;
-	if (AF_GPS.newNMEAreceived()) {
 
+		if (AF_GPS.newNMEAreceived()) {
 
-	    if (!AF_GPS.parse(AF_GPS.lastNMEA())){   // this also sets the newNMEAreceived() flag to false
-	      return 3;  // we can fail to parse a sentence in which case we should just wait for another
-	    }
-	    _update();
-	    return 1;
-	  }
-	}
-	else{
+			if (!AF_GPS.parse(AF_GPS.lastNMEA())) { // this also sets the newNMEAreceived() flag to false
+				return 3; // we can fail to parse a sentence in which case we should just wait for another
+			}
+			_update();
+			return 1;
+		}
+	} else {
 		return 2;
 	}
 
@@ -52,7 +51,7 @@ uint8_t GPS::checkAndParse(){
 
 /*--------------------------------PRIVATE---------------------------------*/
 
-void GPS::_update(){
+void GPS::_update() {
 
 	hour = AF_GPS.hour;
 	minute = AF_GPS.minute;
@@ -78,16 +77,8 @@ void GPS::_update(){
 
 }
 
-
-
-
 /***************************** End of GPS Class *************************/
 /*************************************************************************/
-
-
-
-
-
 
 /*---------------------------Static Functions-------------------------------*/
 
