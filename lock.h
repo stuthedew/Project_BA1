@@ -9,8 +9,13 @@
 #include "Arduino.h"
 #include <Servo.h>
 
+#ifndef openPosition
 #define openPosition 45
+#endif
+
+#ifndef closedPosition
 #define closedPosition 75
+#endif
 
 //add your includes for the project lock here
 class Lock{

@@ -9,7 +9,20 @@
 #include "Arduino.h"
 
 //add your includes for the project counter here
-
+class Counter{
+	
+public:
+	Counter(uint8_t);
+	void begin();
+	void resetCounter(uint8_t);
+	void tick();
+	
+	
+	
+private:
+	uint8_t _counterPin;
+	
+};
 
 
 
