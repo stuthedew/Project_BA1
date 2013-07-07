@@ -10,7 +10,6 @@
 
 //add your includes for the project GPS here
 #include <Adafruit_GPS.h>
-#include <SoftwareSerial.h>
 
 class GPS {
 public:
@@ -28,7 +27,6 @@ public:
 	uint8_t fixQuality, satellites;
 
 private:
-	SoftwareSerial mySerial;
 	void _update();
 
 };

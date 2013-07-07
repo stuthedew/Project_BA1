@@ -11,7 +11,7 @@ volatile boolean readFlag = 0;
 /*--------------------------------PUBLIC---------------------------------*/
 
 GPS::GPS() :
-		mySerial(3, 2), AF_GPS(&mySerial) {
+		AF_GPS(&Serial) {
 
 }
 
@@ -19,7 +19,7 @@ void GPS::begin() {
 
 	AF_GPS.begin(9600);
 	AF_GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
-	AF_GPS.sendCommand(PMTK_SET_NMEA_UPDATE_5HZ);
+	AF_GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
 	//set up Interrupts to read GPS serial data
 	OCR0A = 0xAF;

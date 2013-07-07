@@ -8,7 +8,6 @@
 #include "GPS.h"
 
 #include <Adafruit_GPS.h>
-#include <SoftwareSerial.h>
 #include <TFT.h>  // Arduino LCD library
 #include <SPI.h>
 
