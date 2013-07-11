@@ -17,11 +17,11 @@
 #define closedPosition 75
 #endif
 
-//add your includes for the project lock here
-class Lock{
+//add your includes for the project latch here
+class Latch{
 	
 public:
-	Lock(uint8_t servoPin, uint8_t pwrPin);
+	Latch();
 	void begin();
 	void open();
 	void close();

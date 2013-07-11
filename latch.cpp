@@ -1,39 +1,39 @@
-#include "lock.h"
+#include "latch.h"
 
 /*************************************************************************/
-/******************************* Lock Class **************************/
+/******************************* Latch Class **************************/
 /*************************************************************************/
 
 /*--------------------------------PUBLIC---------------------------------*/
 
-Lock::Lock(uint8_t servoPin, uint8_t pwrPin) :
+Latch::Latch() :
 		_latchServo() {
-	_servoPin = servoPin;
-	_pwrPin = pwrPin;
 	_closePos = closedPosition;
 	_openPos = openPosition;
 
 }
 
-void Lock::begin() {
+void Latch::begin(uint8_t servoPin, uint8_t pwrPin) {
+	_servoPin = servoPin;
+	_pwrPin = pwrPin;
 	pinMode(_servoPin, OUTPUT);
 	pinMode(_pwrPin, OUTPUT);
 	digitalWrite(_pwrPin, LOW);
 	_latchServo.attach(_servoPin);
 }
 
-void Lock::close() {
+void Latch::close() {
 
 	_moveServo(_closePos);
 
 }
 
-void Lock::open() {
+void Latch::open() {
 	_moveServo (_openPos);
 }
 
 /*--------------------------------PRIVATE---------------------------------*/
-void Lock::_moveServo(uint8_t latchPos) {
+void Latch::_moveServo(uint8_t latchPos) {
 	digitalWrite(_pwrPin, HIGH);
 	delay(10);
 	_latchServo.write(latchPos);

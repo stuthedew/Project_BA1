@@ -6,12 +6,13 @@
 
 /*--------------------------------PUBLIC---------------------------------*/
 
-Counter::Counter(uint8_t counterPin) {
-	_counterPin = counterPin;
+Counter::Counter() {
+	
 
 }
 
-void Counter::begin() {
+void Counter::begin(uint8_t counterPin) {
+	_counterPin = counterPin;
 	pinMode(_counterPin, OUTPUT);
 	digitalWrite(_counterPin, LOW);
 

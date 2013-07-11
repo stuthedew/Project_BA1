@@ -9,7 +9,19 @@
 #include "Arduino.h"
 
 //add your includes for the project meter here
-
+class Meter {
+	
+public:
+	Meter();
+	void begin(uint8_t);
+	void setCalibrationValues(uint8_t values[]);
+	void value(uint8_t);
+	
+	
+	
+private:
+	
+};
 
 
 
