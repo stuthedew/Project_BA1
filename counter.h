@@ -18,7 +18,7 @@ class Counter{
 public:
 	Counter();
 	void begin(uint8_t);
-	void resetCounter(uint8_t);
+	void reset();
 	void tick();
 	
 	

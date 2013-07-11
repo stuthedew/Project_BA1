@@ -11,6 +11,7 @@
 #include "GPS.h"
 #include <Adafruit_GPS.h>
 
+#define old_ticks 19
 //Latch pins
 #define servoPin 9
 #define pwrPin 2
@@ -54,15 +55,19 @@ void loop(){
 
   switch(cache.getMode()){
   case first_run:
+  
+    cache.firstRun();
+    
 
-    cache.setMode(activeGame);
+    
     cache.shutdown();
 
     break;
 
 
-  case activeGame:
+  case activeGameMode:
 
+    cache.activeGame();
     cache.shutdown();
 
     break;

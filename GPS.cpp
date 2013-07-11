@@ -55,6 +55,11 @@ void GPS::sleep(){
 	
 }
 
+void GPS::wake(){
+	digitalWrite(_enablePin, HIGH);
+	
+}
+
 /*--------------------------------PRIVATE---------------------------------*/
 
 void GPS::_update() {

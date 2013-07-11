@@ -19,8 +19,9 @@
 #include <Adafruit_GPS.h>
 
 #define modeAddress 0
+#define tryCountAddress 1
 
-typedef enum mode_e{ first_run = 0, activeGame, found, fail} mode;
+typedef enum mode_e{ first_run = 0, activeGameMode, found, fail} mode;
 
 
 
@@ -31,8 +32,17 @@ public:
 	Cache(uint8_t);
 	void begin();
 	void attachCounter(uint8_t);
+	void attachGPS(uint8_t);
 	void attachLatch(uint8_t, uint8_t);
 	void attachMeters(uint8_t, uint8_t, uint8_t);
+	
+	void firstRun();
+	
+	void activeGame();
+	
+	void close();
+	
+	void display(int);
 	
 	uint8_t getMode();
 	void setMode(mode_e);
@@ -44,12 +54,13 @@ private:
 	Data _data;
 	GPS _GPS;
 	Counter _counter;
+	Button _button;
 	
 	Meter _hundredsMeter;
 	Meter _tensMeter;
 	Meter _onesMeter;
 	
-	
+	unsigned long _timeout;
 	uint8_t _killPin;
 	
 	

@@ -14,7 +14,7 @@
 class GPS {
 public:
 	GPS();
-	void begin();
+	void begin(uint8_t);
 	uint8_t checkAndParse();
 	Adafruit_GPS AF_GPS;
 
@@ -27,10 +27,10 @@ public:
 	uint8_t fixQuality, satellites;
 
 	void sleep();
-	
+	void wake();
 private:
 	void _update();
-	uint8_t _enablePin();
+	uint8_t _enablePin;
 
 };
 
