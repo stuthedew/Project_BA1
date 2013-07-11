@@ -9,7 +9,18 @@
 #include "Arduino.h"
 
 //add your includes for the project button here
-
+class Button{
+public: 
+	Button();
+	void begin(uint8_t);
+	void blink(unsigned long);
+	
+	
+private:
+	uint8_t _ledPin;
+	
+	
+};
 
 
 

@@ -7,6 +7,7 @@
 #ifndef meter_H_
 #define meter_H_
 #include "Arduino.h"
+#include <avr/pgmspace.h>
 
 //add your includes for the project meter here
 class Meter {
@@ -14,12 +15,20 @@ class Meter {
 public:
 	Meter();
 	void begin(uint8_t);
-	void setCalibrationValues(uint8_t values[]);
-	void value(uint8_t);
+	
+	void displayValue(uint8_t);
+	
+	void setCalibrationValues(unsigned char calVal[]);
+	
+	
 	
 	
 	
 private:
+	uint8_t _meterPin;
+	uint8_t _calValues[10];
+	void _displayRawValue(uint8_t);
+	void _rampPWM(uint8_t, unsigned int rampDelay=2);
 	
 };
 

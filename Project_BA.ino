@@ -1,6 +1,7 @@
 #include "cache.h"
 #include <Flash.h>
 #include <EEPROM.h>
+#include <avr/pgmspace.h>
 #include "button.h"
 #include "counter.h"
 #include "data.h"
@@ -10,24 +11,37 @@
 #include "GPS.h"
 #include <Adafruit_GPS.h>
 
-#define killPin 3
-#define buttonPin 6
+//Latch pins
+#define servoPin 9
+#define pwrPin 2
 
-#define countPin 4
+//meter pins
+#define hundredsPin 3
+#define tensPin 5
+#define onesPin 6
+
+//counter pin
+#define counterPin 2
+
+//GPS pin
+#define GPS_enable_pin 7
+
+//power kill pin
+#define killPin 4
 
 Cache cache(killPin);
 
-unsigned long timer;
 
 
 
 void setup(){
-  
-  
-  pinMode(buttonPin, OUTPUT);
-  digitalWrite(buttonPin, LOW);
+
   cache.begin();
-  
+
+  cache.attachLatch(servoPin, pwrPin);
+  cache.attachMeters(hundredsPin, tensPin, onesPin);  
+  cache.attachCounter(counterPin);
+  cache.attachGPS(GPS_enable_pin);
 
 
 
@@ -37,22 +51,40 @@ void setup(){
 
 
 void loop(){
-  timer = millis();
-  while(millis() - timer < 5000){
-    blinkButton();
+
+  switch(cache.getMode()){
+  case first_run:
+
+    cache.setMode(activeGame);
+    cache.shutdown();
+
+    break;
+
+
+  case activeGame:
+
+    cache.shutdown();
+
+    break;
+
+
+  case found:
+
+    cache.shutdown();
+
+    break;
+
+  case fail:
+
+    cache.shutdown();
+
+    break;
+
   }
-
-  
 }
 
-void blinkButton(){
-  digitalWrite(buttonPin, HIGH);
-  delay(500);
-  digitalWrite(buttonPin, LOW);
-  delay(500);
-  
-  
-}
+
+
 
 
 

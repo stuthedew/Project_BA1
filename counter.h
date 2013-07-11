@@ -8,6 +8,9 @@
 #define counter_H_
 #include "Arduino.h"
 
+#ifndef old_ticks
+#define old_ticks 0
+#endif
 
 //add your includes for the project counter here
 class Counter{

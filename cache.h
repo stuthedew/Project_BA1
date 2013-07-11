@@ -18,7 +18,11 @@
 #include "GPS.h"
 #include <Adafruit_GPS.h>
 
-typedef enum mode_e{ first_run = 0, seek, found, fail} mode;
+#define modeAddress 0
+
+typedef enum mode_e{ first_run = 0, activeGame, found, fail} mode;
+
+
 
 //add your includes for the project cache here
 class Cache {
@@ -30,13 +34,22 @@ public:
 	void attachLatch(uint8_t, uint8_t);
 	void attachMeters(uint8_t, uint8_t, uint8_t);
 	
+	uint8_t getMode();
+	void setMode(mode_e);
+	
 	void shutdown();
 	
 private:
 	Latch _latch;
+	Data _data;
 	GPS _GPS;
 	Counter _counter;
-	Data _data;
+	
+	Meter _hundredsMeter;
+	Meter _tensMeter;
+	Meter _onesMeter;
+	
+	
 	uint8_t _killPin;
 	
 	

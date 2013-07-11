@@ -22,7 +22,7 @@ class Latch{
 	
 public:
 	Latch();
-	void begin();
+	void begin(uint8_t, uint8_t);
 	void open();
 	void close();
 	

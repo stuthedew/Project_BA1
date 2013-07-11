@@ -15,8 +15,9 @@ GPS::GPS() :
 
 }
 
-void GPS::begin() {
-
+void GPS::begin(uint8_t enablePin) {
+	_enablePin = enablePin;
+	pinMode(_enablePin, HIGH);
 	AF_GPS.begin(9600);
 	AF_GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
 	AF_GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
@@ -47,6 +48,11 @@ uint8_t GPS::checkAndParse() {
 		return 2;
 	}
 
+}
+
+void GPS::sleep(){
+	digitalWrite(_enablePin, LOW);
+	
 }
 
 /*--------------------------------PRIVATE---------------------------------*/

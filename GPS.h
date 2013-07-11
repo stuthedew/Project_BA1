@@ -26,8 +26,11 @@ public:
 	boolean fix;
 	uint8_t fixQuality, satellites;
 
+	void sleep();
+	
 private:
 	void _update();
+	uint8_t _enablePin();
 
 };
 
