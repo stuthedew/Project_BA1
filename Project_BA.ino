@@ -1,103 +1,66 @@
 #include "cache.h"
-#include <Flash.h>
-#include <EEPROM.h>
-#include <avr/pgmspace.h>
-#include "button.h"
+ #include <Flash.h>
+ //#include <modules/button.h>
 #include "counter.h"
-#include "data.h"
-#include "latch.h"
-#include <Servo.h>
-#include "meter.h"
-#include "GPS.h"
-#include <Adafruit_GPS.h>
 
-#define old_ticks 19
-//Latch pins
-#define servoPin 9
-#define pwrPin 16
+ #include "data.h"
+ #include "latch.h"
+ #include <Servo.h>
+ //#include <modules/meter.h>
+ #include "GPS.h"
+  #include <EEPROM.h>
 
-//meter pins
-#define hundredsPin 3
-#define tensPin 5
-#define onesPin 11
+ #include <Adafruit_GPS.h>
+ 
+#define killPin 3
+#define buttonPin 6
 
-//counter pin
-#define counterPin 8
+ Latch latch();
+Counter counter();
 
-//GPS pin
-#define GPS_enable_pin 7
-
-//power kill pin
-#define killPin 15
-
-//button pin
-#define buttonPin 19
-
-Cache cache(killPin);
-
-
-
-
-void setup(){
-
-  cache.begin();
-
-  cache.attachLatch(servoPin, pwrPin);
-  //cache.attachMeters(hundredsPin, tensPin, onesPin);  
-  //cache.attachCounter(counterPin);
-  //cache.attachGPS(GPS_enable_pin);
-  cache.attachButton(buttonPin);
-
-
-
-}
-
-
-
-
-void loop(){
-
-  switch(cache.getMode()){
-
-  case first_run:
+unsigned long timer;
+ 
+ 
+ 
+ void setup(){
   
-    cache.firstRun();
-    
-
-    
-    cache.shutdown();
-
-    break;
-
-
-  case activeGameMode:
-
-    cache.activeGame();
-    cache.shutdown();
-
-    break;
-
-
-  case found:
-
-    cache.shutdown();
-
-    break;
-
-  case fail:
-
-    cache.shutdown();
-
-    break;
-
+  latch.begin(9, 2);
+  counter.begin(8);
+  pinMode(killPin, OUTPUT);
+  digitalWrite(killPin, LOW);
+  pinMode(buttonPin, OUTPUT);
+  digitalWrite(buttonPin, LOW);
+  
+ 
+ 
+ 
+ }
+ 
+ 
+ void loop(){
+  latch.open();
+  delay(5000);
+  timer = millis();
+  while(millis() - timer < 5000){
+    blinkButton();
   }
+  
+   latch.close();
+   delay(5000);
+  latch.open();
+  delay(1000);
+  counter.tick();
+  digitalWrite(killPin, HIGH);
+
+  
 }
-
-
-
-
-
-
-
-
+ 
+void blinkButton(){
+  digitalWrite(buttonPin, HIGH);
+  delay(500);
+  digitalWrite(buttonPin, LOW);
+  delay(500);
+  
+   
+ }
 

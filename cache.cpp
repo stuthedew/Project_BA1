@@ -5,7 +5,7 @@ prog_uchar tensMeterCalibrationVals[] PROGMEM = {44, 70, 93, 117, 141, 164, 186,
 prog_uchar hundredsMeterCalibrationVals[] PROGMEM = {4, 31, 56, 79, 102, 124, 145, 168, 193, 217};
 
 Cache::Cache(uint8_t killPin) :
-		_counter(), _data(), _latch(), _GPS(), _hundredsMeter(), _tensMeter(), _onesMeter() {
+		_counter(), _data(), _latch(), _GPS(){
 
 	_killPin = killPin;
 
@@ -48,50 +48,50 @@ void Cache::attachLatch(uint8_t servoPin, uint8_t pwrPin) {
 
 }
 
-void Cache::attachMeters(uint8_t hundredsMeterPin, uint8_t tensMeterPin,
-		uint8_t onesMeterPin) {
-
-	_hundredsMeter.begin(hundredsMeterPin);
-	_tensMeter.begin(tensMeterPin);
-	_onesMeter.begin(onesMeterPin);
-
-	unsigned char tmpAry[10];
-
-	for (int i = 0; i < 10; i++) {
-		tmpAry[i] = pgm_read_byte_near(onesMeterCalibrationVals + i);
-	}
-	_onesMeter.setCalibrationValues(tmpAry);
-
-	for (int i = 0; i < 10; i++) {
-		tmpAry[i] = pgm_read_byte_near(tensMeterCalibrationVals + i);
-	}
-	_tensMeter.setCalibrationValues(tmpAry);
-
-	for (int i = 0; i < 10; i++) {
-		tmpAry[i] = pgm_read_byte_near(hundredsMeterCalibrationVals + i);
-	}
-	_hundredsMeter.setCalibrationValues(tmpAry);
-
-//	_hundredsMeter.displayValue(0);
-//	delay(10);
-//	_tensMeter.displayValue(0);
-//	delay(10);
-//	_onesMeter.displayValue(0);
-//	delay(1000);
-//	_hundredsMeter.displayValue(9);
-//	delay(10);
-//	_tensMeter.displayValue(9);
-//	delay(10);
-//	_onesMeter.displayValue(9);
-//	delay(250);
-//	_hundredsMeter.displayValue(0);
-//	delay(10);
-//	_tensMeter.displayValue(0);
-//	delay(10);
-//	_onesMeter.displayValue(0);
-//	delay(10);
-
-}
+//void Cache::attachMeters(uint8_t hundredsMeterPin, uint8_t tensMeterPin,
+//		uint8_t onesMeterPin) {
+//
+//	_hundredsMeter.begin(hundredsMeterPin);
+//	_tensMeter.begin(tensMeterPin);
+//	_onesMeter.begin(onesMeterPin);
+//
+//	unsigned char tmpAry[10];
+//
+//	for (int i = 0; i < 10; i++) {
+//		tmpAry[i] = pgm_read_byte_near(onesMeterCalibrationVals + i);
+//	}
+//	_onesMeter.setCalibrationValues(tmpAry);
+//
+//	for (int i = 0; i < 10; i++) {
+//		tmpAry[i] = pgm_read_byte_near(tensMeterCalibrationVals + i);
+//	}
+//	_tensMeter.setCalibrationValues(tmpAry);
+//
+//	for (int i = 0; i < 10; i++) {
+//		tmpAry[i] = pgm_read_byte_near(hundredsMeterCalibrationVals + i);
+//	}
+//	_hundredsMeter.setCalibrationValues(tmpAry);
+//
+////	_hundredsMeter.displayValue(0);
+////	delay(10);
+////	_tensMeter.displayValue(0);
+////	delay(10);
+////	_onesMeter.displayValue(0);
+////	delay(1000);
+////	_hundredsMeter.displayValue(9);
+////	delay(10);
+////	_tensMeter.displayValue(9);
+////	delay(10);
+////	_onesMeter.displayValue(9);
+////	delay(250);
+////	_hundredsMeter.displayValue(0);
+////	delay(10);
+////	_tensMeter.displayValue(0);
+////	delay(10);
+////	_onesMeter.displayValue(0);
+////	delay(10);
+//
+//}
 
 void Cache::firstRun() {
 	_latch.open();
@@ -117,16 +117,16 @@ void Cache::firstRun() {
 
 }
 
-void Cache::display(int distance) {
-	uint8_t hundreds = distance / 100;
-	_hundredsMeter.displayValue(hundreds);
-
-	uint8_t tens = (distance - (hundreds * 100)) / 10;
-	_tensMeter.displayValue(tens);
-
-	uint8_t ones = distance % 10;
-	_onesMeter.displayValue(ones);
-}
+//void Cache::display(int distance) {
+//	uint8_t hundreds = distance / 100;
+//	_hundredsMeter.displayValue(hundreds);
+//
+//	uint8_t tens = (distance - (hundreds * 100)) / 10;
+//	_tensMeter.displayValue(tens);
+//
+//	uint8_t ones = distance % 10;
+//	_onesMeter.displayValue(ones);
+//}
 
 void Cache::activeGame() {
 	_GPS.wake();

@@ -14,7 +14,6 @@
 #include "data.h"
 #include "latch.h"
 #include <Servo.h>
-#include "meter.h"
 #include "GPS.h"
 #include <Adafruit_GPS.h>
 
@@ -58,9 +57,7 @@ private:
 	Counter _counter;
 	Button _button;
 	
-	Meter _hundredsMeter;
-	Meter _tensMeter;
-	Meter _onesMeter;
+	
 	
 	unsigned long _timeout;
 	uint8_t _killPin;
