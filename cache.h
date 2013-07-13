@@ -21,7 +21,7 @@
 #define modeAddress 0
 #define tryCountAddress 1
 
-typedef enum mode_e{ first_run = 0, activeGameMode, found, fail} mode;
+typedef enum mode_e{first_run = 0, activeGameMode, found, fail} mode;
 
 
 
@@ -31,6 +31,7 @@ class Cache {
 public:
 	Cache(uint8_t);
 	void begin();
+	void attachButton(uint8_t);
 	void attachCounter(uint8_t);
 	void attachGPS(uint8_t);
 	void attachLatch(uint8_t, uint8_t);
@@ -46,6 +47,7 @@ public:
 	
 	uint8_t getMode();
 	void setMode(mode_e);
+	void incrementTryCount();
 	
 	void shutdown();
 	

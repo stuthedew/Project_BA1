@@ -13,8 +13,6 @@ void Meter::begin(uint8_t meterPin) {
 
 
 void Meter::displayValue(uint8_t value){
-	Serial.println(value);
-	Serial.println(_calValues[value]);
 	_rampPWM(_calValues[value]);
 	
 	
