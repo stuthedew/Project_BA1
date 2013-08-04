@@ -1,7 +1,24 @@
 #include "cache.h"
 
+
+/**********************************SECRET LOCATION*********************************/
+//Latitude of Secret Location
+
+/*		 +	-
+ *------------
+ * lat | N	S
+ * lon | E  W
+ */
+
+	#define secLat 43.68071
+	//Longitude of Secret Location
+	#define secLon -114.362995
+
+/**********************************SECRET LOCATION*********************************/
+
+
 Cache::Cache(uint8_t killPin) :
-		_counter(), _data(), _latch(), _GPS() {
+		_counter(), _data(secLat, secLon), _latch(), _GPS() {
 
 	_killPin = killPin;
 

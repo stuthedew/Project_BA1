@@ -34,7 +34,7 @@ class Data {
 
 public:
 	//Constructor
-	Data();
+	Data(float, float);
 
 	//Methods
 	int distanceInMiles();

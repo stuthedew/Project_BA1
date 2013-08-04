@@ -2,32 +2,18 @@
 #include "data.h"
 #include <Flash.h>
 
-/**********************************SECRET LOCATION*********************************/
-
-//test
-
-//Latitude of Secret Location
-
-	#define secLat 43.68071
-	//Longitude of Secret Location
-	#define secLon -114.362995
 
 
-
-
-
-/*		 +	-
- *------------
- * lat | N	S
- * lon | E  W
- */
-
-/**********************************SECRET LOCATION*********************************/
 
 /*---------------Constants for Location Calculations----------------*/
 // 0 = PI/180 constant, 1 = Earth's quatratic mean radius for WGS-84,  2 = meters to miles
 FLASH_ARRAY(float, calcConsts, 0.01745329251994, 6371, 0.621371);
 //6372797.560856
+
+
+
+
+
 
 /*------------------------------------------------------------------*/
 
@@ -60,10 +46,10 @@ void Position::setLocation(float _lat, float _lon) {
 
 /*--------------------------------PUBLIC---------------------------------*/
 
-Data::Data() :
+Data::Data(float _secLat, float _secLon) :
 		_secretLocation(), _currentLocation() {
 
-	_secretLocation.setLocation(secLat, secLon);
+	_secretLocation.setLocation(_secLat, _secLon);
 
 }
 
