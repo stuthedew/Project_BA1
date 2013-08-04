@@ -18,12 +18,12 @@ void Counter::begin(uint8_t counterPin) {
 
 }
 
-void Counter::reset() {
+void Counter::reset(uint8_t oldTicks) {
 
-	if (old_ticks == 0) {
+	if (oldTicks == 0) {
 		return;
 	}
-	uint8_t clicks = 100 - old_ticks;
+	uint8_t clicks = 100 - oldTicks;
 
 	for (int i = 0; i < clicks; i++) {
 		tick();

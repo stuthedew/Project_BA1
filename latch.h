@@ -4,18 +4,14 @@
 // - extern variable definitions
 // In the appropriate section
 
+
+
 #ifndef lock_H_
 #define lock_H_
 #include "Arduino.h"
 #include <Servo.h>
 
-#ifndef openPosition
-#define openPosition 45
-#endif
 
-#ifndef closedPosition
-#define closedPosition 75
-#endif
 
 //add your includes for the project latch here
 class Latch{

@@ -3,14 +3,17 @@
 // - include files
 // - extern variable definitions
 // In the appropriate section
+//#ifndef old_ticks
+//#define old_ticks 0
+//#endif
+
 
 #ifndef counter_H_
 #define counter_H_
-#include "Arduino.h"
+#include <Arduino.h>
 
-#ifndef old_ticks
-#define old_ticks 0
-#endif
+
+
 
 //add your includes for the project counter here
 class Counter{
@@ -18,13 +21,15 @@ class Counter{
 public:
 	Counter();
 	void begin(uint8_t);
-	void reset();
+	void reset(uint8_t);
 	void tick();
+	
 	
 	
 	
 private:
 	uint8_t _counterPin;
+	uint8_t _oldTicks;
 	
 };
 

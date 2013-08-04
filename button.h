@@ -14,6 +14,8 @@ public:
 	Button();
 	void begin(uint8_t);
 	void blink(unsigned long);
+	void on();
+	void off();
 	
 	
 private:

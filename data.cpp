@@ -3,10 +3,19 @@
 #include <Flash.h>
 
 /**********************************SECRET LOCATION*********************************/
-	//Latitude of Secret Location
+
+//test
+
+//Latitude of Secret Location
+
 	#define secLat 43.68071
 	//Longitude of Secret Location
 	#define secLon -114.362995
+
+
+
+
+
 /*		 +	-
  *------------
  * lat | N	S
@@ -60,7 +69,7 @@ Data::Data() :
 
 float Data::distanceInKilometers() {
 	//calcConsts[1] == Earth's quatratic mean radius for WGS-84
-	return calcConsts[1] * _arcInRadians(_currentLocation, _secretLocation);
+	return round(calcConsts[1] * _arcInRadians(_currentLocation, _secretLocation));
 }
 
 

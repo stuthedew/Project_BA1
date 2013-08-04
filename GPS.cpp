@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "GPS.h"
 
-char c;
-volatile boolean readFlag = 0;
+
+
 
 /*************************************************************************/
 /******************************* GPS Class **************************/
@@ -10,21 +10,19 @@ volatile boolean readFlag = 0;
 
 /*--------------------------------PUBLIC---------------------------------*/
 
-GPS::GPS() :
+GPS::GPS():
 		AF_GPS(&Serial) {
 
 }
 
 void GPS::begin(uint8_t enablePin) {
 	_enablePin = enablePin;
-	pinMode(_enablePin, HIGH);
+	pinMode(_enablePin, OUTPUT);
 	AF_GPS.begin(9600);
 	AF_GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
 	AF_GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
 
-	//set up Interrupts to read GPS serial data
-	OCR0A = 0xAF;
-	TIMSK0 |= _BV(OCIE0A);
+
 
 	delay(1000);
 
@@ -32,9 +30,6 @@ void GPS::begin(uint8_t enablePin) {
 
 uint8_t GPS::checkAndParse() {
 	//code: 1 == success, 2 == no new NMEA data, 3 == failed to parse
-	if (readFlag) {
-		c = AF_GPS.read();
-		readFlag = 0;
 
 		if (AF_GPS.newNMEAreceived()) {
 
@@ -44,10 +39,14 @@ uint8_t GPS::checkAndParse() {
 			_update();
 			return 1;
 		}
-	} else {
+		else {
 		return 2;
 	}
 
+}
+
+char GPS::read(){
+	return AF_GPS.read();
 }
 
 void GPS::sleep(){
@@ -93,9 +92,6 @@ void GPS::_update() {
 
 /*---------------------------Static Functions-------------------------------*/
 
-SIGNAL(TIMER0_COMPA_vect) {
-	readFlag = 1;
-}
 
 /*------------------------End of Static Functions----------------------------*/
 

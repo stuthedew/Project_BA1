@@ -13,6 +13,15 @@ void Button::begin(uint8_t ledPin){
 	digitalWrite(_ledPin, LOW);
 }
 
+void Button::on(){
+	digitalWrite(_ledPin, HIGH);
+	
+}
+
+void Button::off(){
+	digitalWrite(_ledPin, LOW);
+	
+}
 
 void Button::blink(unsigned long blinkDelay){
 	digitalWrite(_ledPin, HIGH);

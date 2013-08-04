@@ -1,66 +1,71 @@
 #include "cache.h"
- #include <Flash.h>
- //#include <modules/button.h>
+#include <Flash.h>
+#include "button.h"
 #include "counter.h"
+#include "data.h"
+#include "latch.h"
+#include <Servo.h>
+#include "GPS.h"
+#include <EEPROM.h>
+#include <Wire.h>
+#include <Adafruit_GPS.h>
+#include <SoftwareSerial.h>
 
- #include "data.h"
- #include "latch.h"
- #include <Servo.h>
- //#include <modules/meter.h>
- #include "GPS.h"
-  #include <EEPROM.h>
 
- #include <Adafruit_GPS.h>
- 
-#define killPin 3
+#define MAX_ATTEMPTS 50
+
+#define killPin 17
+
 #define buttonPin 6
 
- Latch latch();
-Counter counter();
+#define counterPin 16
 
-unsigned long timer;
- 
- 
- 
- void setup(){
-  
-  latch.begin(9, 2);
-  counter.begin(8);
-  pinMode(killPin, OUTPUT);
-  digitalWrite(killPin, LOW);
-  pinMode(buttonPin, OUTPUT);
-  digitalWrite(buttonPin, LOW);
-  
- 
- 
- 
- }
- 
- 
- void loop(){
-  latch.open();
-  delay(5000);
-  timer = millis();
-  while(millis() - timer < 5000){
-    blinkButton();
-  }
-  
-   latch.close();
-   delay(5000);
-  latch.open();
-  delay(1000);
-  counter.tick();
-  digitalWrite(killPin, HIGH);
+//Latch pins
+#define servoPin 9
+#define pwrPin 7
 
-  
+//GPS pin
+#define enablePin 8
+
+Cache Cache(killPin);
+
+
+SIGNAL(TIMER0_COMPA_vect) {
+  char c = Cache.readGPS();
 }
- 
-void blinkButton(){
-  digitalWrite(buttonPin, HIGH);
-  delay(500);
-  digitalWrite(buttonPin, LOW);
-  delay(500);
+
+void setup(){
+Cache.begin();
+Cache.attachCounter(counterPin, 26);
+Cache.attachLatch(servoPin, pwrPin);
+Cache.attachButton(buttonPin);
+Cache.attachGPS(enablePin);
+
+OCR0A = 0xAF;
+TIMSK0 |= _BV(OCIE0A);
+
+}
+
+
+void loop(){
   
-   
- }
+  if(Cache.attemptCounter() == 0xFF){
+  Cache.firstRun();
+    
+  }
+  else if(Cache.status() == true){
+    Cache.open();
+    Cache.shutdown();
+  }
+  else if( Cache.attemptCounter() <= MAX_ATTEMPTS){
+    Cache.activeGame();
+    Cache.shutdown();
+    
+  }
+
+while(true);
+
+}
+
+
 

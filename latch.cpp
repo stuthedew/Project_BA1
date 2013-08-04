@@ -8,8 +8,8 @@
 
 Latch::Latch() :
 		_latchServo() {
-	_closePos = closedPosition;
-	_openPos = openPosition;
+	_closePos = 75;
+	_openPos = 45;
 
 }
 

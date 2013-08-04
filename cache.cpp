@@ -1,11 +1,7 @@
 #include "cache.h"
 
-prog_uchar onesMeterCalibrationVals[] PROGMEM = {9, 37, 66, 94, 122, 151, 176, 203, 230, 255};
-prog_uchar tensMeterCalibrationVals[] PROGMEM = {44, 70, 93, 117, 141, 164, 186, 207, 229, 255};
-prog_uchar hundredsMeterCalibrationVals[] PROGMEM = {4, 31, 56, 79, 102, 124, 145, 168, 193, 217};
-
 Cache::Cache(uint8_t killPin) :
-		_counter(), _data(), _latch(), _GPS(){
+		_counter(), _data(), _latch(), _GPS() {
 
 	_killPin = killPin;
 
@@ -15,31 +11,31 @@ void Cache::begin() {
 
 	pinMode(_killPin, OUTPUT);
 	digitalWrite(_killPin, LOW);
+	Wire.begin();
+	
 
 }
 
-void Cache::attachCounter(uint8_t counterPin) {
+void Cache::attachCounter(uint8_t counterPin, uint8_t oldTicks) {
 	_counter.begin(counterPin);
-
+	_oldTicks = oldTicks;
 }
 
-uint8_t Cache::getMode() {
-	return EEPROM.read(modeAddress);
-
+uint8_t Cache::attemptCounter(){
+	
+	return EEPROM.read(tryCountAddress);
 }
 
-void Cache::setMode(mode_e cacheMode) {
-	EEPROM.write(modeAddress, cacheMode);
-
+uint8_t Cache::status(){
+	return EEPROM.read(boxStatusAddress);
+	
 }
-
-void Cache::attachButton(uint8_t buttonPin){
+void Cache::attachButton(uint8_t buttonPin) {
 	_button.begin(buttonPin);
 }
 
 void Cache::attachGPS(uint8_t enablePin) {
 	_GPS.begin(enablePin);
-	_GPS.sleep();
 
 }
 
@@ -48,61 +44,17 @@ void Cache::attachLatch(uint8_t servoPin, uint8_t pwrPin) {
 
 }
 
-//void Cache::attachMeters(uint8_t hundredsMeterPin, uint8_t tensMeterPin,
-//		uint8_t onesMeterPin) {
-//
-//	_hundredsMeter.begin(hundredsMeterPin);
-//	_tensMeter.begin(tensMeterPin);
-//	_onesMeter.begin(onesMeterPin);
-//
-//	unsigned char tmpAry[10];
-//
-//	for (int i = 0; i < 10; i++) {
-//		tmpAry[i] = pgm_read_byte_near(onesMeterCalibrationVals + i);
-//	}
-//	_onesMeter.setCalibrationValues(tmpAry);
-//
-//	for (int i = 0; i < 10; i++) {
-//		tmpAry[i] = pgm_read_byte_near(tensMeterCalibrationVals + i);
-//	}
-//	_tensMeter.setCalibrationValues(tmpAry);
-//
-//	for (int i = 0; i < 10; i++) {
-//		tmpAry[i] = pgm_read_byte_near(hundredsMeterCalibrationVals + i);
-//	}
-//	_hundredsMeter.setCalibrationValues(tmpAry);
-//
-////	_hundredsMeter.displayValue(0);
-////	delay(10);
-////	_tensMeter.displayValue(0);
-////	delay(10);
-////	_onesMeter.displayValue(0);
-////	delay(1000);
-////	_hundredsMeter.displayValue(9);
-////	delay(10);
-////	_tensMeter.displayValue(9);
-////	delay(10);
-////	_onesMeter.displayValue(9);
-////	delay(250);
-////	_hundredsMeter.displayValue(0);
-////	delay(10);
-////	_tensMeter.displayValue(0);
-////	delay(10);
-////	_onesMeter.displayValue(0);
-////	delay(10);
-//
-//}
-
 void Cache::firstRun() {
+	
 	_latch.open();
-	setMode(first_run);
+	_GPS.sleep();
 	unsigned int timerVal = millis();
-	while (millis() - timerVal < 5000) {
+	while (millis() - timerVal < 10000) {
 		_button.blink(500);
 	}
 
 	timerVal = millis();
-	while (millis() - timerVal < 5000) {
+	while (millis() - timerVal < 10000) {
 		_button.blink(250);
 	}
 
@@ -112,48 +64,53 @@ void Cache::firstRun() {
 	while (millis() - timerVal < 20000) {
 		_button.blink(250);
 	}
-	_counter.reset();
-	//setMode(activeGameMode);
+	_counter.reset(_oldTicks);
+	EEPROM.write(boxStatusAddress, 0);
+	EEPROM.write(tryCountAddress, 0);
+	shutdown();
 
 }
 
-//void Cache::display(int distance) {
-//	uint8_t hundreds = distance / 100;
-//	_hundredsMeter.displayValue(hundreds);
-//
-//	uint8_t tens = (distance - (hundreds * 100)) / 10;
-//	_tensMeter.displayValue(tens);
-//
-//	uint8_t ones = distance % 10;
-//	_onesMeter.displayValue(ones);
-//}
+char Cache::readGPS(){
+	return _GPS.read();
+	
+}
 
 void Cache::activeGame() {
 	_GPS.wake();
-	for(int i = 0; i < 3; i++){
+	for (int i = 0; i < 3; i++) {
 		_button.blink(250);
 	}
 	_timeout = millis();
-	while (!_GPS.fix && millis() - _timeout < 120000) {
-		_button.blink(500);
+	while (!_GPS.fix && millis() - _timeout < 180000) {
+		_GPS.checkAndParse();
+		_button.blink(1000);
 	}
 	if (!_GPS.fix) {
 		return;
 	}
 
 	for (int i = 0; i < 5; i++) {
-		if (_GPS.checkAndParse()) {
+		if (_GPS.checkAndParse() && _GPS.fixQuality < 1.5) {
 			break;
 		}
-		delay(1000);
+		delay(1100);
 	}
-
+	_GPS.sleep();
+	_button.on();
 	_data.setCurrentLocation(_GPS.latitude, _GPS.lat, _GPS.longitude, _GPS.lon);
-
-	display(_data.distanceInKilometers());
+	int distKm = min(_data.distanceInKilometers(), 999);
+	if(distKm < 2){
+		open();
+		EEPROM.write(boxStatusAddress, 1);
+		return;
+	}
+	else{
+	_display(distKm);
 	delay(20000);
 	incrementTryCount();
-
+	
+	}
 }
 
 void Cache::close() {
@@ -161,12 +118,36 @@ void Cache::close() {
 
 }
 
+void Cache::open() {
+	
+	unsigned int timerVal = millis();
+		while (millis() - timerVal < 3000) {
+			_button.blink(100);
+		}
+		
+		_latch.open();
+	
+}
+
 void Cache::incrementTryCount() {
-	EEPROM.write(tryCountAddress, EEPROM.read(tryCountAddress) + 1);
+	EEPROM.write(tryCountAddress, attemptCounter() + 1);
+	_counter.tick();
+	delay(10);
 }
 
 void Cache::shutdown() {
 	digitalWrite(_killPin, HIGH);
+
+}
+
+void Cache::_display(int distanceVal) {
+	uint8_t msb = distanceVal >> 8;
+	uint8_t lsb = distanceVal & ~(0xFF << 8);
+
+	Wire.beginTransmission(displayAddress);
+	Wire.write(msb);
+	Wire.write(lsb);
+	Wire.endTransmission();
 
 }
 
