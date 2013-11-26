@@ -15,7 +15,23 @@
 #include <SoftwareSerial.h>
 
 
+
+
+
+//-----------------------------------------//
+
+// set maximum number of attempts
 #define MAX_ATTEMPTS 50
+
+
+//***IMPORTANT***
+//set number on counter from previous attempts to reset counter back to zero.
+#define previous_ticks 0
+
+//-----------------------------------------//
+
+
+
 
 #define killPin 17
 
@@ -39,7 +55,7 @@ SIGNAL(TIMER0_COMPA_vect) {
 
 void setup(){
 Cache.begin();
-Cache.attachCounter(counterPin, 26);
+Cache.attachCounter(counterPin, previous_ticks);
 Cache.attachLatch(servoPin, pwrPin);
 Cache.attachButton(buttonPin);
 Cache.attachGPS(enablePin);
