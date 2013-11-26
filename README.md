@@ -11,4 +11,7 @@ To change where the geocache opens, look on lines 13-15 of [cache.cpp](../master
 
 
 ## Reseting the Counter
-Before resetting the chache with a different location, you need to set `previous_ticks` on line 29 of [Project_BA1.ino](../master/Project_BA.ino) to whatever number the counter reads from the previous geocache. The geocache will then reset the counter back to 0 on the first start-up.
+Before resetting the chache with a different location, you need to define `previous_ticks` on line 29 of [Project_BA1.ino](../master/Project_BA.ino) to whatever number the counter reads from the previous geocache. The geocache will then reset the counter back to 0 on the first start-up.
+
+## Restarting the Cache
+To be continued... (Let me know if for some reason you really want to restart it before I have a chance to update this and I will just walk you through it. It's pretty easy.)
