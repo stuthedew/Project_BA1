@@ -5,7 +5,7 @@
 //Latitude of Secret Location
 
 /*		+	-
- *-
+ *
  * lat :	N	S
  * lon :	E	W
  */
