@@ -5,9 +5,9 @@
 //Latitude of Secret Location
 
 /*		 +	-
- *------------
- * lat | N	S
- * lon | E  W
+ *-
+ * lat :	N	S
+ * lon : 	E  	W
  */
 
 	#define secLat 43.68071
