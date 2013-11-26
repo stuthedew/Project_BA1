@@ -7,7 +7,7 @@
 /*		 +	-
  *-
  * lat :	N	S
- * lon : 	E  	W
+ * lon :	E  	W
  */
 
 	#define secLat 43.68071
