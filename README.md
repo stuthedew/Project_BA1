@@ -1,5 +1,8 @@
 # Congratulations Brett and Audrey for figuring it out!
 
+![alt text](../master/Misc./Open.jpg "You did it!!!")
+
+
 I'm really glad it worked! It worked fine when I was testing it but I was just a little worried since it's been going for a few months.
 
 ## Changing the Secret Location
